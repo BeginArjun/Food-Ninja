@@ -37,11 +37,6 @@ const userSchema=mongoose.Schema({
         required:true,
         default:false
     },
-    tokens:[
-        {
-            token:{type:String,required:true}
-        }
-    ]
 },{timestamps:true})
 
 // Adds a method to check if the inputted password is equal to the hash one
