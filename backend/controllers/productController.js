@@ -146,7 +146,7 @@ const reviewProduct=async(req,res)=>{
         }
 
         product.reviews.unshift(review)
-        product.numReviews = product.reviews.length
+        product.totalReviews = product.reviews.length
         product.rating = product.reviews.reduce((a, c) => a + c.rating, 0) / product.reviews.length
 
         await product.save()
