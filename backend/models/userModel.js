@@ -17,20 +17,10 @@ const userSchema=mongoose.Schema({
         required:true,
         unique:true,
         lowercase:true,
-        validate(value){
-            if(!validator.isEmail(value)){
-                throw new Error('Email is invalid')
-            }
-        }
     },
     password:{
         type:String,
         required:true,
-        validate(value) {
-            if( value.toLowerCase().includes('password')) {
-            throw new Error('password musn\'t contain password')
-           }
-        }
     },
     isAdmin:{
         type:Boolean,
@@ -40,13 +30,13 @@ const userSchema=mongoose.Schema({
 },{timestamps:true})
 
 // Adds a method to check if the inputted password is equal to the hash one
-userSchema.methods.matchPassword=async(promptPassword)=>{
+userSchema.methods.matchPassword=async function(promptPassword){
     return await bcrypt.compare(promptPassword,this.password)
 }
 
-userSchema.pre('save',async(next)=>{
+userSchema.pre('save',async function(next){
     if(!this.isModified('password')){
-        next()
+        return next()
     }
 
     const salt=await bcrypt.genSalt() // Asynchronously generate salt with 10 rounds

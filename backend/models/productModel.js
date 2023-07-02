@@ -10,7 +10,7 @@ const reviewSchema=mongoose.Schema({
         required:true,
         ref:'User'
     }
-},{timestamps})
+},{timestamps:true})
 
 // Product Schema
 const productSchema=mongoose.Schema({

@@ -1,14 +1,40 @@
-
+import Order from "../models/orderModel.js"
 const addOrderItem=async(req,res)=>{
     const {
         orderItems,
         shippingAddress,
-        paymentMethod,
+        payment,
         itemsPrice,
         taxPrice,
         shippingPrice,
         totalPrice
     }=req.body
+
+    if(orderItems && orderItems.length==0){
+        res.status(400)
+        throw new Error('No Order Items')
+        return
+    }
+
+    try{
+        const order=new Order({
+            orderItems,
+            user:req.user._id,
+            shippingAddress,
+            payment,
+            itemsPrice,
+            taxPrice,
+            shippingPrice,
+            totalPrice
+        })
+
+        const createOrder=await Order.create(order)
+
+        res.status(201).json(createOrder)
+    }
+    catch(err){
+        res.status(500).json({error:err.stack})
+    }
 
     res.status(200).send('Add Order Items')
 }

@@ -1,5 +1,6 @@
 # Dependency directories
 node_modules/
+backend/uploads/
 
 # Optional npm cache directory
 .npm

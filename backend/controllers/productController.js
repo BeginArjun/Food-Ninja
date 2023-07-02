@@ -1,3 +1,4 @@
+import { request } from "express"
 import Products from "../models/productModel.js"
 
 const getProducts=async(req,res)=>{
@@ -81,7 +82,7 @@ const createProduct=async(req,res)=>{
             totalReviews
           })
         const createProduct=await Products.create(product)
-        res.status(200).json({success:true,createProduct})
+        res.status(201).json({success:true,createProduct})
     }
     catch(err){
         res.status(500).json({success:false,error:err.stack})
@@ -139,10 +140,10 @@ const reviewProduct=async(req,res)=>{
         }
 
         const review = {
-            name: req.user.name,
+            name: req.user._doc.firstName,
             rating: Number(rating),
             comment,
-            user: req.user._id
+            user: req.user._doc._id,
         }
 
         product.reviews.unshift(review)
@@ -153,7 +154,7 @@ const reviewProduct=async(req,res)=>{
         res.status(201).json({ success: true })
     }
     catch(err){
-        res.status(500).json({success:false,error:err.stack})
+        res.status(500).json({success:false,error:err.stack,user:req.user})
     }
 }
 
