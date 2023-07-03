@@ -12,13 +12,11 @@ const auth=async(req,res,next)=>{
             next()
         }
         catch(err){
-            res.status(401)
-            throw new Error('Invalid Token')
+            res.status(401).json({success:false,error:err.stack})
         }
     }
     if(!token){
-        res.status(401)
-        throw new Error('Invalid Token')
+        res.status(401).json({success:false,error:'Invalid Token'})
     }
 }
 
